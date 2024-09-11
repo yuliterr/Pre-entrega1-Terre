@@ -1,5 +1,3 @@
-
-
 //!Pre Entrega 1//
 /*
 let nombre = prompt ("Hola, ingresá tu nombre");
@@ -39,23 +37,21 @@ while (adivinado === false) {
 //!Pre Entrega 2//
 
 
-function losGoles() {
+function ingresarDatos() {
     let jugadoras = [];
     let continuar = true;
 
+    while (continuar === true) {
+        const nombre = prompt("Ingresá el nombre de la jugadora");
+        const goles = parseFloat(prompt("Ingresá la cantidad de goles"));
 
-   while (continuar === true) {
-        const nombre = prompt("Ingresa el nombre de la jugadora");
-        const goles = parseFloat(prompt ("Ingresá los goles de la jugadora"));
-    
-
-        if (isNaN(goles) || goles <0 || goles > 1000000) {
-            alert ("Ingresa un número válido.");
+        if (isNaN(goles) || goles < 0 || goles > 100) {
+            alert("Ingresá una nota válido.");
         } else {
-            jugadoras.push ({nombre: nombre, goles: goles});
+            jugadoras.push({nombre: nombre, goles: goles});
         }
 
-        const respuesta = prompt("¿Queres agregar otra jugadora? Si/No").toLowerCase();
+        const respuesta = prompt("¿Querés agregar otra jugadora? Si/No").toLowerCase();
         if (respuesta === "si") {
             continuar = true;
         } else {
@@ -63,67 +59,71 @@ function losGoles() {
         }
     }
 
-        return jugadoras;
+    return jugadoras;
 }
 
 
+//!Promedio
 function calcularPromedio(jugadoras) {
-    const suma = jugadoras.reduce ((acc, jugadoras) => acc + jugadoras.goles, 0);
+    const suma = jugadoras.reduce((acc, jugadoras) => acc + jugadoras.goles, 0);
     const promedio = suma / jugadoras.length;
     return promedio;
 }
 
-function Goleadoras (jugadoras) {
-    let masGoles = jugadoras [0].goles;
 
-    jugadoras.forEach(jugadoras => {
-        if (jugadoras.goles > masGoles) {
-            masGoles = jugadoras.goles;
+//!Mejores
+function mejoresJugadoras(jugadoras) {
+    let mejorGol = jugadoras[0].goles;
+
+    jugadoras.forEach(jugadora => {
+        if (jugadora.goles > mejorGol) {
+            mejorGol = jugadora.goles;
         }
     });
 
-    let figura = jugadoras.filter((jugadoras) => jugadoras.goles === masGoles);
-    
-    return figura;
+    let mejores = jugadoras.filter((jugadoras) => jugadoras.goles === mejorGol);
+
+    return mejores;
 }
 
 
-function MenosGoles (jugadoras){
-    let pocosGoles = jugadoras [0].goles;
+//!Peores
+function peoresJugadoras(jugadoras) {
+    let pocoGol = jugadoras[0].goles;
 
-    jugadoras.forEach(jugadoras => {
-        if (jugadoras.goles < pocosGoles) {
-            pocosGoles = jugadoras.goles;
+    jugadoras.forEach(jugadora => {
+        if (jugadora.goles < pocoGol) {
+            pocoGol = jugadora.goles;
         }
     });
 
-    let peores = jugadoras.filter((jugadoras) => jugadoras.goles === pocosGoles);
-    
+    let peores = jugadoras.filter((jugadoras) => jugadoras.goles === pocoGol);
+
     return peores;
 }
 
 
-function ResumenPartido () {
-    const chicas =  ingresarGoles();
+function sistemaDeGoles() {
+    const chicas = ingresarDatos();
 
-    if (chicas.length === 0){  
-        console.log ("No hay jugadoras");
-    return;
+    if (chicas.length === 0) {
+        console.log("No hay estudiantes");
+        return;
+    }
+
+    const promedio = calcularPromedio(chicas);
+    const mejores = mejoresJugadoras(chicas);
+    const peores = peoresJugadoras(chicas);
+
+    console.log("Promedio de goles ");
+    console.log(promedio.toFixed(2));
+
+    console.log("Mejores");
+    mejores.forEach((jugadora) => console.log(jugadora.nombre + " con " + jugadora.goles));
+
+    console.log("Peores");
+    peores.forEach((jugadora) => console.log(jugadora.nombre + " con " + jugadora.goles))
+
 }
 
-    const promedio = calcularPromedio (chicas);
-    const goleador = goleadoras (chicas);
-    const peores = menosGoles(chicas);
-
-    console.log ("***Promedios de goles***");
-    console.log (promedio.toFixed(2));
-
-    console.log ("***Goleadoras***");
-    goleador.forEach ((jugadoras)=> console.log (jugadoras.nombre + ". Goles: " + jugadoras.goles));
-
-    console.log ("***Pocos goles***");
-    peores.forEach ((jugadoras)=> console.log (jugadoras.nombre + ". Goles: " + jugadoras.goles));
-
-
- }
-
+sistemaDeGoles();
